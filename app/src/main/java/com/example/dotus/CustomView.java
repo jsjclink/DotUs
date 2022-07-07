@@ -16,6 +16,7 @@ public class CustomView extends View {
     int[][] pixelArray;
     boolean[][] isSet;
     int color;
+    boolean was_moving;
 
     public CustomView(Context context) {
         super(context);
@@ -48,8 +49,12 @@ public class CustomView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         Log.d("width, height", Integer.toString(getWidth()) + ", " + getHeight());
         switch(event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                Log.d("x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+            case MotionEvent.ACTION_UP:
+                if(was_moving){
+                    was_moving = false;
+                    break;
+                }
+                Log.d("Action DOWN!!! x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
                 x = ((int)(curOriginX + event.getX()))/100;
                 y = ((int)(curOriginY + event.getY()))/100;
                 isSet[x][y] = true;
@@ -58,16 +63,26 @@ public class CustomView extends View {
                 py = event.getY();
                 break;
 
+            case MotionEvent.ACTION_DOWN:
+                px = event.getX();
+                py = event.getY();
+                break;
+
             case MotionEvent.ACTION_MOVE:
-                Log.d("x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+                Log.d("ACTION MOVE!! x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
                 float dx, dy;
                 dx = px - event.getX();
                 dy = py - event.getY();
                 px = event.getX();
                 py = event.getY();
                 curOriginX += dx;
+                if(curOriginX < 0f) curOriginX = 0f;
+                //오른쪽 경계도 해줘
                 curOriginY += dy;
+                if(curOriginY < 0f) curOriginY = 0f;
+                //아래쪽 경계도 해줘
                 Log.d("originx, originy", curOriginX + ", " + curOriginY);
+                was_moving = true;
                 break;
 
         }
