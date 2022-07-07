@@ -11,6 +11,8 @@ import android.view.View;
 public class CustomView extends View {
     Paint paint;
     int x, y;
+    float px, py; //이전 좌표
+    float curOriginX, curOriginY;
     int[][] pixelArray;
     boolean[][] isSet;
     int color;
@@ -22,17 +24,21 @@ public class CustomView extends View {
         color = Color.RED;
         paint.setColor(color);
 
-        pixelArray = new int[10][10];
-        isSet = new boolean[10][10];
+        pixelArray = new int[30][30];
+        isSet = new boolean[30][30];
+
+        curOriginX = 0f;
+        curOriginY = 0f;
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.d("int x int y", Integer.toString(x) + ", " + Integer.toString(y));
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                if(isSet[i][j] == true) canvas.drawRect((float)i*100, (float)j*100, (float)i*100 + 100, (float)j*100 + 100, paint);
+        for(int i = 0; i < 30; i++){
+            for(int j = 0; j < 30; j++){
+                int intOriginX = ((int)curOriginX)*100/100;
+                int intOriginY = ((int)curOriginY)*100/100;
+                if(isSet[i][j] == true) canvas.drawRect(-1*intOriginX + (float)i*100, -1*intOriginY + (float)j*100, -1*intOriginX + + (float)i*100 + 100,  -1*intOriginY + (float)j*100 + 100, paint);
             }
         }
         super.onDraw(canvas);
@@ -44,13 +50,26 @@ public class CustomView extends View {
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 Log.d("x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
-                x = ((int) event.getX())/100;
-                y = ((int) event.getY())/100;
+                x = ((int)(curOriginX + event.getX()))/100;
+                y = ((int)(curOriginY + event.getY()))/100;
                 isSet[x][y] = true;
                 pixelArray[x][y] = color;
+                px = event.getX();
+                py = event.getY();
+                break;
 
             case MotionEvent.ACTION_MOVE:
                 Log.d("x, y", Float.toString(event.getX()) + ", " + Float.toString(event.getY()));
+                float dx, dy;
+                dx = px - event.getX();
+                dy = py - event.getY();
+                px = event.getX();
+                py = event.getY();
+                curOriginX += dx;
+                curOriginY += dy;
+                Log.d("originx, originy", curOriginX + ", " + curOriginY);
+                break;
+
         }
         invalidate();
 
