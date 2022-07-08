@@ -17,6 +17,7 @@ public class PaintView extends View {
     int pixelWidth = 30; int pixelHeight = 30;
     int scale = 50;
     float sensitivity = 0.1f;
+    int targetX, targetY;
 
     public PaintView(Context context) {
         super(context);
@@ -28,23 +29,16 @@ public class PaintView extends View {
 
         pixelArray = new int[pixelWidth][pixelHeight];
         pixelSet = new boolean[pixelWidth][pixelHeight];
+
+        Log.d("width, height", Integer.toString(getWidth()) + ", " + getHeight());
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         int intOriginX = ((int)curOriginX)/scale*scale;
         int intOriginY = ((int)curOriginY)/scale*scale;
-        /*
-        int targetX = ((int)getWidth())/scale/2;
-        int targetY = ((int)getHeight())/scale/2;
-        Log.d("X, Y", targetX + ", " + targetY);
-        canvas.drawRect(
-                (float)targetX*scale,
-                (float)targetY*scale,
-                (float)targetX*scale + scale,
-                (float)targetY*scale + scale,
-                rectPaint
-        );*/
+
+        //drawTargetPicker(canvas);
 
         for(int i = 0; i < pixelWidth; i++){
             for(int j = 0; j < pixelHeight; j++){
@@ -61,9 +55,20 @@ public class PaintView extends View {
         super.onDraw(canvas);
     }
 
+    private void drawTargetPicker(Canvas canvas) {
+        int targetX = ((int)getWidth())/scale/2;
+        int targetY = ((int)getHeight())/scale/2;
+        canvas.drawRect(
+                (float)targetX*scale,
+                (float)targetY*scale,
+                (float)targetX*scale + scale,
+                (float)targetY*scale + scale,
+                rectPaint
+        );
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d("width, height", Integer.toString(getWidth()) + ", " + getHeight());
         switch(event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 px = event.getX();
