@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("사용자 계정" + user1);
 
                 Intent intent = new Intent(this, MainActivity.class);
-//                intent.putExtra("name", user.getNickname());
-//                intent.putExtra("profile", user.getProfileImagePath());
+                intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
+                intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
                 startActivity(intent);
                 finish();
             }

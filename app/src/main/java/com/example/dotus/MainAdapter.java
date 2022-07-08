@@ -1,5 +1,8 @@
 package com.example.dotus;
 
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
         holder.iv_profile.setImageResource(arrayList.get(position).getIv_profile());
+        GradientDrawable drawable = (GradientDrawable)holder.iv_profile.getContext().getDrawable(R.drawable.background_rounding);
+        holder.iv_profile.setBackground(drawable);
+        holder.iv_profile.setClipToOutline(true);
         holder.tv_name.setText(arrayList.get(position).getTv_name());
         holder.tv_content.setText(arrayList.get(position).getTv_content());
 
