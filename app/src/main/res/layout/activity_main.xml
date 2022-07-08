@@ -98,7 +98,16 @@
         android:text="gotoPaint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/kakao_logout_button" />
+        app:layout_constraintBottom_toTopOf="@+id/kakao_share" />
+
+    <Button
+        android:id="@+id/kakao_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공유하기"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/kakao_logout_button" />
 
     <Button
         android:id="@+id/kakao_logout_button"

@@ -43,13 +43,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         holder.tv_content.setText(arrayList.get(position).getTv_content());
 
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String curName = holder.tv_name.getText().toString();
-                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String curName = holder.tv_name.getText().toString();
+//                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
