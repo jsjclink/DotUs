@@ -31,7 +31,10 @@ import com.kakao.sdk.talk.model.Friend;
 import com.kakao.sdk.talk.model.Friends;
 import com.kakao.sdk.template.model.Content;
 import com.kakao.sdk.template.model.FeedTemplate;
+import com.kakao.sdk.template.model.ItemContent;
+import com.kakao.sdk.template.model.ItemInfo;
 import com.kakao.sdk.template.model.Link;
+import com.kakao.sdk.template.model.Social;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.sdk.user.model.User;
@@ -40,6 +43,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
@@ -54,9 +58,21 @@ public class MainActivity extends AppCompatActivity {
     private ImageView profileImg;
     private TextView nickName;
 
-    FeedTemplate feedTemplate = new FeedTemplate(new Content("DotUs에 당신을 초대합니다!","https://i.im.ge/2022/07/08/ukC3Eh.png",    //메시지 제목, 이미지 url
-            new Link("https://www.naver.com"),"닷어스라고 읽으셨나요? '도투스'입니다^^",                    //메시지 링크, 메시지 설명
-            300,300));                                                     //이미지 사이즈
+//    FeedTemplate feedTemplate = new FeedTemplate(new Content("DotUs에 당신을 초대합니다!","https://i.im.ge/2022/07/08/ukC3Eh.png",    //메시지 제목, 이미지 url
+//            new Link("https://www.naver.com"),"닷어스라고 읽으셨나요? '도투스'입니다^^",                    //메시지 링크, 메시지 설명
+//            300,300));                                                     //이미지 사이즈
+
+    FeedTemplate feedTemplate = new FeedTemplate(
+            new Content("DotUs에 당신을 초대합니다!",
+                    "https://i.im.ge/2022/07/08/ukC3Eh.png",
+                    new Link("https://developers.kakao.com",
+                            "https://developers.kakao.com"),
+                    "닷어스라고 읽으셨나요? '도투스'입니다^^"
+            ),
+            new ItemContent(),
+            new Social(286, 45, 845),
+            Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("https://developers.kakao.com", "https://developers.kakao.com")))
+    );
 
 
     @Override
