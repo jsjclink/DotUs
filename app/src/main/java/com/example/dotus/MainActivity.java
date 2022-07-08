@@ -27,6 +27,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class MainActivity extends AppCompatActivity {
+    Button kakaoLoginBtn, gotoPaintBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("KeyHash", Utility.INSTANCE.getKeyHash(this));
 
-        Button kakaoLoginBtn = findViewById(R.id.kakao_login_button);
+        initView();
+        initListener();
+
+    }
+
+    private void initView() {
+        kakaoLoginBtn = findViewById(R.id.kakao_login_button);
+        gotoPaintBtn = findViewById(R.id.gotoPaint);
+
+    }
+    private void initListener() {
         kakaoLoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -48,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button gotoPaintBtn = findViewById(R.id.gotoPaint);
         gotoPaintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 //finish() 하면 뒤로가기 눌러도 못돌아감
             }
         });
-
     }
 
     public void login(){
@@ -106,25 +115,4 @@ public class MainActivity extends AppCompatActivity {
             return null;
         });
     }
-
-    // 키해시 얻기
-    public String getKeyHash(){
-        try{
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            if(packageInfo == null) return null;
-            for(Signature signature: packageInfo.signatures){
-                try{
-                    MessageDigest md = MessageDigest.getInstance("SHA");
-                    md.update(signature.toByteArray());
-                    return android.util.Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-                }catch (NoSuchAlgorithmException e){
-                    Log.w("getKeyHash", "Unable to get MessageDigest. signature="+signature, e);
-                }
-            }
-        }catch(PackageManager.NameNotFoundException e){
-            Log.w("getPackageInfo", "Unable to getPackageInfo");
-        }
-        return null;
-    }
-
 }

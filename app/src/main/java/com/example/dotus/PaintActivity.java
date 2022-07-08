@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PaintActivity extends AppCompatActivity {
-    CustomView customView;
+    PaintView paintView;
     FrameLayout stage;
 
     @Override
@@ -18,8 +18,8 @@ public class PaintActivity extends AppCompatActivity {
         initView();
         initListener();
 
-        customView = new CustomView(this);
-        stage.addView(customView);
+        paintView = new PaintView(this);
+        stage.addView(paintView);
     }
 
     private void initView() {
