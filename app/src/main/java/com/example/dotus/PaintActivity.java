@@ -15,10 +15,16 @@ public class PaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.paint);
 
-        stage = findViewById(R.id.stage);
+        initView();
+        initListener();
 
         customView = new CustomView(this);
         stage.addView(customView);
+    }
 
+    private void initView() {
+        stage = findViewById(R.id.stage);
+    }
+    private void initListener() {
     }
 }
