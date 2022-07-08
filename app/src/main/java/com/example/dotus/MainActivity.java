@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         initListener();
-
     }
 
     private void initView() {
