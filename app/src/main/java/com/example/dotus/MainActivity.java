@@ -1,6 +1,8 @@
 package com.example.dotus;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -22,42 +24,41 @@ import com.kakao.sdk.user.model.Account;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class MainActivity extends AppCompatActivity {
-    Button kakaoLoginBtn, gotoPaintBtn;
+    private Button gotoPaintBtn, btn_add;
+    private ArrayList<MainData> arrayList;
+    private MainAdapter mainAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("KeyHash", Utility.INSTANCE.getKeyHash(this));
-
         initView();
         initListener();
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        arrayList = new ArrayList<>();
+
+        mainAdapter = new MainAdapter(arrayList);
+        recyclerView.setAdapter(mainAdapter);
     }
 
     private void initView() {
-        kakaoLoginBtn = findViewById(R.id.kakao_login_button);
         gotoPaintBtn = findViewById(R.id.gotoPaint);
-
+        recyclerView = findViewById(R.id.rv);
+        btn_add = findViewById(R.id.btn_add);
     }
-    private void initListener() {
-        kakaoLoginBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(MainActivity.this)){
-                    login();
-                }
-                else{
-                    accountLogin();
-                }
-            }
-        });
 
+    private void initListener() {
         gotoPaintBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,52 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 //finish() 하면 뒤로가기 눌러도 못돌아감
             }
         });
-    }
 
-    public void login(){
-        String TAG = "login()";
-        UserApiClient.getInstance().loginWithKakaoTalk(MainActivity.this,(oAuthToken, error) -> {
-            if (error != null) {
-                Log.e(TAG, "로그인 실패", error);
-            } else if (oAuthToken != null) {
-                Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                getUserInfo();
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainData mainData = new MainData(R.drawable.ic_launcher_background, "몰입캠프", "2주차");
+                arrayList.add(mainData);
+                mainAdapter.notifyDataSetChanged();
             }
-            return null;
-        });
-    }
-
-    public void accountLogin(){
-        String TAG = "accountLogin()";
-        UserApiClient.getInstance().loginWithKakaoAccount(MainActivity.this,(oAuthToken, error) -> {
-            if (error != null) {
-                Log.e(TAG, "로그인 실패", error);
-            } else if (oAuthToken != null) {
-                Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                getUserInfo();
-            }
-            return null;
-        });
-    }
-
-    public void getUserInfo(){
-        String TAG = "getUserInfo()";
-        UserApiClient.getInstance().me((user, meError) -> {
-            if (meError != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", meError);
-            } else {
-                System.out.println("로그인 완료");
-                Log.i(TAG, user.toString());
-                {
-                    Log.i(TAG, "사용자 정보 요청 성공" +
-                            "\n회원번호: "+user.getId() +
-                            "\n이메일: "+user.getKakaoAccount().getEmail());
-                }
-
-                Account user1 = user.getKakaoAccount();
-                System.out.println("사용자 계정" + user1);
-            }
-            return null;
         });
     }
 }
