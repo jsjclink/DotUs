@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
     FeedTemplate feedTemplate = new FeedTemplate(
             new Content("DotUs에 당신을 초대합니다!",
                     "https://i.im.ge/2022/07/08/ukC3Eh.png",
-                    new Link("https://developers.kakao.com",
-                            "https://developers.kakao.com"),
+                    new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
+                            "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
                     "닷어스라고 읽으셨나요? '도투스'입니다^^"
             ),
             new ItemContent(),
             new Social(286, 45, 845),
-            Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("https://developers.kakao.com", "https://developers.kakao.com")))
+            Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink", "kakao698ef6feb4968fb876642447e2007a20://kakaolink")))
     );
 
 
