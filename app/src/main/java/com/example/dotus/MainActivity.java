@@ -25,6 +25,7 @@ import com.kakao.sdk.common.util.Utility;
 import com.kakao.sdk.link.LinkClient;
 import com.kakao.sdk.link.WebSharerClient;
 import com.kakao.sdk.link.model.LinkResult;
+import com.kakao.sdk.share.ShareClient;
 import com.kakao.sdk.talk.TalkApi;
 import com.kakao.sdk.talk.TalkApiClient;
 import com.kakao.sdk.talk.model.Friend;
