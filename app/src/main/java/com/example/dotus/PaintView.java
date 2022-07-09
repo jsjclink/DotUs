@@ -15,7 +15,7 @@ public class PaintView extends View {
     int color = Color.RED;
     long timeMilli;
     int pixelWidth = 30; int pixelHeight = 30;
-    int scale = 50;
+    int scale = 100;
     float sensitivity = 0.1f;
     int targetX, targetY;
 
