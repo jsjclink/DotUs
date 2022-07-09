@@ -1,12 +1,13 @@
 package com.example.dotus;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.kakao.sdk.user.UserApiClient;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
         initListener();
+        loginCheck();
     }
 
     private void initView() {
@@ -40,6 +42,18 @@ public class LoginActivity extends AppCompatActivity {
                     accountLogin();
                 }
             }
+        });
+    }
+
+    private void loginCheck(){
+        UserApiClient.getInstance().accessTokenInfo((accessTokenInfo, throwable) -> {
+            if(throwable != null) {
+                Log.e(TAG, "토큰 없음", throwable);
+            }
+            else if(accessTokenInfo != null){
+                getUserInfo();
+            }
+            return null;
         });
     }
 

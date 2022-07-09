@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private ImageView profileImg;
     private TextView nickName;
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 //    FeedTemplate feedTemplate = new FeedTemplate(new Content("DotUs에 당신을 초대합니다!","https://i.im.ge/2022/07/08/ukC3Eh.png",    //메시지 제목, 이미지 url
 //            new Link("https://www.naver.com"),"닷어스라고 읽으셨나요? '도투스'입니다^^",                    //메시지 링크, 메시지 설명
