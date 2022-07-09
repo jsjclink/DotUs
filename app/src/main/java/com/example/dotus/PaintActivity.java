@@ -16,7 +16,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class PaintActivity extends AppCompatActivity {
-    final String baseUrl = "http://192.249.18.118:443";
+    final String baseUrl = "http://192.249.18.118:443/";
     PaintView paintView;
     FrameLayout stage;
     Socket mSocket;
@@ -61,12 +61,16 @@ public class PaintActivity extends AppCompatActivity {
     }
     private void initSocket(){
         try {
-            mSocket = IO.socket(baseUrl);
+            mSocket = IO.socket(baseUrl + "paint");
         }
         catch (URISyntaxException e){
             e.printStackTrace();
         }
         mSocket.connect();
+        //param id 받아서 id값 넣게
+        String id = "user_02";
+        //이 정보 이용해서 room에 넣기
+        mSocket.emit("join", id);
 
         mSocket.on("img_ret", new Emitter.Listener() {
             @Override
