@@ -12,10 +12,21 @@ import android.widget.ImageButton;
 
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
+import com.kakao.sdk.user.model.User;
+
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class LoginActivity extends AppCompatActivity {
 
     ImageButton kakaoLoginBtn;
+    final String baseUrl = "http://192.249.18.118:80";
+    Socket mSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
         initListener();
+        initSocket();
+
         loginCheck();
     }
 
@@ -35,29 +48,36 @@ public class LoginActivity extends AppCompatActivity {
         kakaoLoginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this)){
+                if(UserApiClient.getInstance().isKakaoTalkLoginAvailable(LoginActivity.this))
                     login();
-                }
-                else{
+                else
                     accountLogin();
-                }
             }
         });
     }
 
-    private void loginCheck(){
+    private void initSocket() {
+        try {
+            mSocket = IO.socket(baseUrl);
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
+    }
+
+    private void loginCheck() {
         UserApiClient.getInstance().accessTokenInfo((accessTokenInfo, throwable) -> {
             if(throwable != null) {
                 Log.e(TAG, "토큰 없음", throwable);
             }
-            else if(accessTokenInfo != null){
+            else if(accessTokenInfo != null)
                 getUserInfo();
-            }
             return null;
         });
     }
 
-    public void login(){
+    public void login() {
         String TAG = "login()";
         UserApiClient.getInstance().loginWithKakaoTalk(LoginActivity.this,(oAuthToken, error) -> {
             if (error != null) {
@@ -70,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void accountLogin(){
+    public void accountLogin() {
         String TAG = "accountLogin()";
         UserApiClient.getInstance().loginWithKakaoAccount(LoginActivity.this,(oAuthToken, error) -> {
             if (error != null) {
@@ -83,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void getUserInfo(){
+    public void getUserInfo() {
         String TAG = "getUserInfo()";
         UserApiClient.getInstance().me((user, meError) -> {
             if (meError != null) {
@@ -100,13 +120,32 @@ public class LoginActivity extends AppCompatActivity {
                 Account user1 = user.getKakaoAccount();
                 System.out.println("사용자 계정" + user1);
 
+                addUser(user);
+
+                //여기서부터는 마지막 mSocket.on event에 넣기
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
                 intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
                 startActivity(intent);
+                mSocket.disconnect();
                 finish();
             }
             return null;
+        });
+    }
+
+    public void addUser(User user) {
+        mSocket.emit("existUser", user.getId() + "");
+        Log.i("existUserNum", user.getId() + "");
+
+        mSocket.on("exist_user", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                Log.i("existUserNum", (boolean)args[0]+"");
+                if (!(boolean) args[0]) {
+                    mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONObject());
+                }
+            }
         });
     }
 }

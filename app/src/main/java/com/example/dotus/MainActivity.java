@@ -41,6 +41,7 @@ import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.sdk.user.model.User;
 
+import java.net.Socket;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -61,22 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView nickName;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
-//    FeedTemplate feedTemplate = new FeedTemplate(new Content("DotUs에 당신을 초대합니다!","https://i.im.ge/2022/07/08/ukC3Eh.png",    //메시지 제목, 이미지 url
-//            new Link("https://www.naver.com"),"닷어스라고 읽으셨나요? '도투스'입니다^^",                    //메시지 링크, 메시지 설명
-//            300,300));                                                     //이미지 사이즈
-
-    FeedTemplate feedTemplate = new FeedTemplate(
-            new Content("DotUs에 당신을 초대합니다!",
-                    "https://i.im.ge/2022/07/08/ukC3Eh.png",
-                    new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
-                            "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
-                    "닷어스라고 읽으셨나요? '도투스'입니다^^"
-            ),
-            new ItemContent(),
-            new Social(286, 45, 845),
-            Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink", "kakao698ef6feb4968fb876642447e2007a20://kakaolink")))
-    );
+    FeedTemplate feedTemplate;
 
 
     @Override
@@ -85,17 +71,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+        initObject();
         initListener();
 
-
         updateKakaoLoginUi();
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        arrayList = new ArrayList<>();
-
-        mainAdapter = new MainAdapter(arrayList);
-        recyclerView.setAdapter(mainAdapter);
     }
 
     private void initView() {
@@ -106,6 +85,28 @@ public class MainActivity extends AppCompatActivity {
         add_btn = findViewById(R.id.add_btn);
         profileImg = findViewById(R.id.my_img);
         nickName = findViewById(R.id.my_name);
+    }
+
+    private void initObject() {
+        feedTemplate = new FeedTemplate(
+                new Content("DotUs에 당신을 초대합니다!",
+                        "https://i.im.ge/2022/07/08/ukC3Eh.png",
+                        new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
+                                "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
+                        "닷어스라고 읽으셨나요? '도투스'입니다^^"
+                ),
+                new ItemContent(),
+                new Social(286, 45, 845),
+                Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink", "kakao698ef6feb4968fb876642447e2007a20://kakaolink")))
+        );
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        arrayList = new ArrayList<>();
+
+        mainAdapter = new MainAdapter(arrayList);
+        recyclerView.setAdapter(mainAdapter);
     }
 
     private void initListener() {
@@ -163,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
         String profile = intent.getStringExtra("profile");
         nickName.setText(name);
         Glide.with(profileImg).load(profile).circleCrop().into(profileImg);
+        Log.i("프로필 사진", profile);
+        Log.i("url 길이", profile.length() + "");
     }
 
     public void kakaoLink() {
