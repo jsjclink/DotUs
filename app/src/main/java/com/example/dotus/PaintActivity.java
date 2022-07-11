@@ -24,7 +24,7 @@ public class PaintActivity extends AppCompatActivity {
     PaintView paintView;
     FrameLayout stage;
     Socket mSocket;
-    Button sendBtn, colorPickBtn;
+    Button colorPickBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +62,6 @@ public class PaintActivity extends AppCompatActivity {
                 }
 
                 break;
-                /*
-            case "debug":
-                initListener_debug();
-                initSocket_debug();
-                 */
         }
 
         paintView = new PaintView(this);
@@ -75,7 +70,6 @@ public class PaintActivity extends AppCompatActivity {
 
     private void initView() {
         stage = findViewById(R.id.stage);
-        sendBtn = findViewById(R.id.send);
     }
 
     @Override
@@ -94,32 +88,6 @@ public class PaintActivity extends AppCompatActivity {
     private void initListener_insideRoom(){
 
     }
-    /*
-    private void initListener_debug(){
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String user_id = "global";
-                int pixel_size = 100;
-                if(pixel_size <= 100){
-                    Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.game), pixel_size, pixel_size, true);
-                    int[] array = new int[image.getWidth()*image.getHeight()];
-                    image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
-                    mSocket.emit("putData", Arrays.toString(array), user_id, image.getWidth(), image.getHeight());
-                }
-                else{
-                    int[] array = new int[pixel_size * pixel_size];
-                    for(int i = 0; i < pixel_size*pixel_size; i++){
-                        array[i] = Color.BLACK;
-                    }
-                    for(int i = 0; i < pixel_size; i++){
-
-                        mSocket.emit("putDataLong", Arrays.toString(Arrays.copyOfRange(array, i*pixel_size, (i+1)*pixel_size)), user_id, pixel_size, pixel_size, i);
-                    }
-                }
-            }
-        });
-    }*/
     private void initSocket_paint(String user_id){
         try {
             mSocket = IO.socket(baseUrl + "paint");
@@ -250,16 +218,6 @@ public class PaintActivity extends AppCompatActivity {
 
         mSocket.emit("joinRoom", room_name);
     }
-    /*
-    private void initSocket_debug(){
-        try {
-            mSocket = IO.socket(baseUrl + "debug");
-        }
-        catch (URISyntaxException e){
-            e.printStackTrace();
-        }
-        mSocket.connect();
-    }*/
 
     public void pixelChanged(int index, int color){
         Log.d("pixelChanged", "pixelChanged");
