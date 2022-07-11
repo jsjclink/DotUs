@@ -57,7 +57,7 @@ public class AddFriendActivity extends AppCompatActivity {
                     notify.setText("본인 Id입니다.");
                 }
                 else {
-                    mSocket.emit("verifyFriend", friend);
+                    mSocket.emit("verifyFriend", friend, myId);
                     mSocket.on("verify_friend", new Emitter.Listener() {
                         @Override
                         public void call(Object... args) {
@@ -67,7 +67,7 @@ public class AddFriendActivity extends AppCompatActivity {
                                     notify.setText(args[0].toString());
                                 }
                             });
-                            if (args[0].toString().equals("친구가 추가되었습니다.")){
+                            if (args[0].toString().equals("add friend success")){
                                 mSocket.emit("addFriend", friend, myId);
                             }
                         }
