@@ -14,6 +14,7 @@ import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.sdk.user.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -25,7 +26,7 @@ import io.socket.emitter.Emitter;
 public class LoginActivity extends AppCompatActivity {
 
     ImageButton kakaoLoginBtn;
-    final String baseUrl = "http://192.249.18.118:80";
+    final String baseUrl = "http://192.249.18.118:80"; //namespace 사용하려면 끝에 /붙이기
     Socket mSocket;
 
     @Override
@@ -123,22 +124,32 @@ public class LoginActivity extends AppCompatActivity {
                 Account user1 = user.getKakaoAccount();
                 System.out.println("사용자 계정" + user1);
                 if(add){
-                    mSocket.emit("existUser", user.getId() + "");
-                    mSocket.on("exist_user", new Emitter.Listener() {
+                    mSocket.emit("existUserKakaoNum", user.getId() + "");
+                    mSocket.on("exist_user_kakaonum", new Emitter.Listener() {
                         @Override
                         public void call(Object... args) {
-                            Log.i("existUserNum", args[0]+"");
+                            Log.i("existKakaoNum", args[0]+"");
                             if ((int)args[0] == 0) {
-                                mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONObject());
+                                mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
                             intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
+                            intent.putExtra("id", user.getId() + "ABC");
                             startActivity(intent);
                             mSocket.disconnect();
                             finish();
                         }
                     });
+                }
+                else {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
+                    intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
+                    intent.putExtra("id", user.getId() + "ABC");
+                    startActivity(intent);
+                    mSocket.disconnect();
+                    finish();
                 }
             }
             else{
