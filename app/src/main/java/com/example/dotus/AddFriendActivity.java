@@ -23,9 +23,7 @@ public class AddFriendActivity extends AppCompatActivity {
     private TextView notify;
     private Button addFriendBtn;
     private String friend, myId;
-    private int existUser;
-    private boolean existFriend;
-    final String baseUrl = "http://192.249.18.118:80";
+    final String baseUrl = "http://192.249.18.118:80/";
     Socket mSocket;
 
     @Override
@@ -52,8 +50,6 @@ public class AddFriendActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 friend = enterId.getText().toString();
-                Log.i("my id: ", myId);
-                Log.i("entered id: ", friend);
 
                 if(friend.length() == 0)
                     notify.setText("아이디를 입력하세요.");
@@ -61,36 +57,21 @@ public class AddFriendActivity extends AppCompatActivity {
                     notify.setText("본인 Id입니다.");
                 }
                 else {
-                    mSocket.emit("existUserId", friend);
-                    mSocket.on("exist_user_id", new Emitter.Listener() {
+                    mSocket.emit("verifyFriend", friend);
+                    mSocket.on("verify_friend", new Emitter.Listener() {
                         @Override
                         public void call(Object... args) {
-                            existUser = (int)args[0];
-                        }
-                    }); //user 존재 확인
-
-                    mSocket.emit("existFriend", friend);
-                    mSocket.on("exist_friend", new Emitter.Listener() {
-                        @Override
-                        public void call(Object... args) {
-                            existFriend = (boolean)args[0];
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(existUser != 0 && !existFriend) {
-                                        mSocket.emit("addFriend", friend, myId);
-                                        notify.setText("친구가 추가되었습니다.");
-                                    }
-                                    else if(existUser != 0 && existFriend) {
-                                        notify.setText("이미 추가된 친구입니다.");
-                                    }
-                                    else {
-                                        notify.setText("존재하지 않는 Id입니다.");
-                                    }
-                                } // on 받고 setText
+                                    notify.setText(args[0].toString());
+                                }
                             });
+                            if (args[0].toString().equals("친구가 추가되었습니다.")){
+                                mSocket.emit("addFriend", friend, myId);
+                            }
                         }
-                    }); //친구목록에 존재 확인
+                    });
                 }
             }
         });
@@ -98,7 +79,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
     private void initSocket() {
         try {
-            mSocket = IO.socket(baseUrl);
+            mSocket = IO.socket(baseUrl + "account");
         }
         catch (URISyntaxException e){
             e.printStackTrace();
@@ -110,6 +91,7 @@ public class AddFriendActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         mSocket.disconnect();
+        setResult(200);
         finish();
     }
 }

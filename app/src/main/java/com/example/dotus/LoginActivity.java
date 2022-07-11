@@ -26,7 +26,7 @@ import io.socket.emitter.Emitter;
 public class LoginActivity extends AppCompatActivity {
 
     ImageButton kakaoLoginBtn;
-    final String baseUrl = "http://192.249.18.118:80"; //namespace 사용하려면 끝에 /붙이기
+    final String baseUrl = "http://192.249.18.118:80/"; //namespace 사용하려면 끝에 /붙이기
     Socket mSocket;
 
     @Override
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initSocket() {
         try {
-            mSocket = IO.socket(baseUrl);
+            mSocket = IO.socket(baseUrl + "account");
         }
         catch (URISyntaxException e){
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void call(Object... args) {
                             Log.i("existKakaoNum", args[0]+"");
                             if ((int)args[0] == 0) {
-                                mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
+                                mSocket.emit("addUser", user.getKakaoAccount().getProfile().getNickname(), user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());

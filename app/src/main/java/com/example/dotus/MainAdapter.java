@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHolder> {
@@ -39,12 +41,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
-        holder.iv_profile.setImageResource(arrayList.get(position).getIv_profile());
-        GradientDrawable drawable = (GradientDrawable)holder.iv_profile.getContext().getDrawable(R.drawable.background_rounding);
-        holder.iv_profile.setBackground(drawable);
-        holder.iv_profile.setClipToOutline(true);
+        if(arrayList.get(position).getIv_profile() != ".jpg")
+            Glide.with(context).load(arrayList.get(position).getIv_profile()).into(holder.iv_profile);
+//        holder.iv_profile.setImageResource(arrayList.get(position).getIv_profile());
+//        GradientDrawable drawable = (GradientDrawable)holder.iv_profile.getContext().getDrawable(R.drawable.background_rounding);
+//        holder.iv_profile.setBackground(drawable);
+//        holder.iv_profile.setClipToOutline(true);
         holder.tv_name.setText(arrayList.get(position).getTv_name());
-        holder.tv_content.setText(arrayList.get(position).getTv_content());
+        holder.tv_id.setText(arrayList.get(position).getTv_id());
 
         holder.itemView.setTag(position);
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +97,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
         protected ImageView iv_profile;
         protected TextView tv_name;
-        protected TextView tv_content;
+        protected TextView tv_id;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.iv_profile=itemView.findViewById(R.id.iv_profile);
             this.tv_name=itemView.findViewById(R.id.tv_name);
-            this.tv_content=itemView.findViewById(R.id.tv_content);
+            this.tv_id=itemView.findViewById(R.id.tv_id);
         }
     }
 }
