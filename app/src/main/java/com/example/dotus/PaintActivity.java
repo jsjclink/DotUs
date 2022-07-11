@@ -18,6 +18,7 @@ import java.util.Arrays;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class PaintActivity extends AppCompatActivity {
     final String baseUrl = "http://192.249.18.118:443/";
@@ -32,6 +33,7 @@ public class PaintActivity extends AppCompatActivity {
         setContentView(R.layout.paint);
 
         initView();
+        initListener_common();
 
         Intent intent = this.getIntent();
         String namespace = intent.getStringExtra("namespace");
@@ -70,6 +72,7 @@ public class PaintActivity extends AppCompatActivity {
 
     private void initView() {
         stage = findViewById(R.id.stage);
+        colorPickBtn = findViewById(R.id.color_pick);
     }
 
     @Override
@@ -77,6 +80,15 @@ public class PaintActivity extends AppCompatActivity {
         super.onBackPressed();
         mSocket.disconnect();
         finish();
+    }
+
+    private void initListener_common(){
+        colorPickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openColorPicker();
+            }
+        });
     }
 
     private void initListener_paint(){
@@ -222,5 +234,18 @@ public class PaintActivity extends AppCompatActivity {
     public void pixelChanged(int index, int color){
         Log.d("pixelChanged", "pixelChanged");
         mSocket.emit("imgChange", index, color);
+    }
+    private void openColorPicker(){
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(PaintActivity.this, Color.BLACK, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                paintView.setColor(color);
+            }
+        });
+        colorPicker.show();
     }
 }

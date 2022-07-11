@@ -36,10 +36,10 @@
         app:layout_constraintVertical_weight="1">
 
         <Button
-            android:id="@+id/clolorpick"
+            android:id="@+id/color_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="clolorpick"
+            android:text="colorpick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

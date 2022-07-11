@@ -12,7 +12,7 @@ public class PaintView extends View {
     Paint rectPaint;
     float px, py, curOriginX, curOriginY;
     int[] pixelArray; boolean[] pixelSet;
-    int color = Color.BLUE;
+    int color = Color.BLUE; //기본 색
     long timeMilli;
     int pixelWidth = 100; int pixelHeight = 100;
     int scale = 25;
@@ -56,6 +56,7 @@ public class PaintView extends View {
                 }
             }
         }
+        rectPaint.setColor(color);
         super.onDraw(canvas);
     }
 
@@ -125,5 +126,8 @@ public class PaintView extends View {
     public void changePixelArray(int index, int color){
         this.pixelArray[index] = color;
         invalidate();
+    }
+    public void setColor(int color){
+        this.color = color;
     }
 }
