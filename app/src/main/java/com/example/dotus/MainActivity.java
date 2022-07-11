@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         initObject();
         initListener();
 
+        loadFriends();
         updateKakaoLoginUi();
     }
 
@@ -173,6 +174,10 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(profileImg).load(profile).circleCrop().into(profileImg);
         Log.i("프로필 사진", profile);
         Log.i("url 길이", profile.length() + "");
+    }
+
+    private void loadFriends() {
+
     }
 
     public void kakaoLink() {
