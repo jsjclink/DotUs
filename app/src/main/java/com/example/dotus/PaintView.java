@@ -94,7 +94,7 @@ public class PaintView extends View {
                     pixelArray[y*pixelHeight + x] = color;
                 }
                 PaintActivity paintActivity = (PaintActivity) context;
-                paintActivity.pixelChanged(x, y, color);
+                paintActivity.pixelChanged(y*pixelHeight + x, color);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -109,7 +109,9 @@ public class PaintView extends View {
         invalidate();
         return true;
     }
-    public void setPixelArrayPixelSet(int[] array){
+    public void initPixelInfo(int[] array, int width, int height){
+        this.pixelWidth = width;
+        this.pixelHeight = height;
         this.pixelArray = array;
         for(int i = 0; i < pixelWidth; i++){
             for(int j = 0; j < pixelHeight; j++){
@@ -118,8 +120,8 @@ public class PaintView extends View {
         }
         invalidate();
     }
-    public void changePixelArray(int x, int y, int color){
-        this.pixelArray[y*pixelHeight + x] = color;
+    public void changePixelArray(int index, int color){
+        this.pixelArray[index] = color;
         invalidate();
     }
 }

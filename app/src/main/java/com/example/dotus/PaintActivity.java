@@ -1,5 +1,9 @@
 package com.example.dotus;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +25,6 @@ public class PaintActivity extends AppCompatActivity {
     FrameLayout stage;
     Socket mSocket;
     Button sendBtn, colorPickBtn;
-    int[] array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +32,38 @@ public class PaintActivity extends AppCompatActivity {
         setContentView(R.layout.paint);
 
         initView();
-        initListener();
-        initSocket();
+
+        Intent intent = this.getIntent();
+        String namespace = intent.getStringExtra("namespace");
+        //지워!!
+        namespace = "debug";
+
+        switch(namespace){
+            case "paint":
+                String user_id = intent.getStringExtra("target_user_id");
+                initListener_paint();
+                initSocket_paint(user_id);
+                break;
+            case "global":
+                initListener_global();
+                initSocket_global();
+                break;
+            case "channel":
+                initListener_channel();
+                initSocket_channel();
+                break;
+            case "debug":
+                initListener_debug();
+                initSocket_debug();
+        }
 
         paintView = new PaintView(this);
         stage.addView(paintView);
+    }
+
+    private void initView() {
+        stage = findViewById(R.id.stage);
+        sendBtn = findViewById(R.id.send);
     }
 
     @Override
@@ -43,23 +73,41 @@ public class PaintActivity extends AppCompatActivity {
         finish();
     }
 
-    private void initView() {
-        stage = findViewById(R.id.stage);
-        sendBtn = findViewById(R.id.send);
+    private void initListener_paint(){
+
     }
-    private void initListener() {
+    private void initListener_global(){
+
+    }
+    private void initListener_channel(){
+
+    }
+    private void initListener_debug(){
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {/*
-                Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.game), 100, 100, true);
-                array = new int[image.getWidth()*image.getHeight()];
-                image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
-                mSocket.emit("putData", Arrays.toString(array));*/
-                mSocket.emit("getData", "");
+            public void onClick(View view) {
+                String user_id = "global_test";
+                int pixel_size = 300;
+                if(pixel_size <= 100){
+                    Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.game), pixel_size, pixel_size, true);
+                    int[] array = new int[image.getWidth()*image.getHeight()];
+                    image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+                    mSocket.emit("putData", Arrays.toString(array), user_id, image.getWidth(), image.getHeight());
+                }
+                else{/*
+                    int[] array = new int[pixel_size * pixel_size];
+                    for(int i = 0; i < pixel_size*pixel_size; i++){
+                        array[i] = Color.BLACK;
+                    }
+                    for(int i = 0; i < pixel_size; i++){
+
+                        mSocket.emit("putDataLong", Arrays.toString(Arrays.copyOfRange(array, i*pixel_size, (i+1)*pixel_size)), user_id, pixel_size, pixel_size, i);
+                    }*/
+                }
             }
         });
     }
-    private void initSocket(){
+    private void initSocket_paint(String user_id){
         try {
             mSocket = IO.socket(baseUrl + "paint");
         }
@@ -67,36 +115,59 @@ public class PaintActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mSocket.connect();
-        //param id 받아서 id값 넣게
-        String id = "user_02";
-        //이 정보 이용해서 room에 넣기
-        mSocket.emit("join", id);
+        mSocket.emit("join", user_id);
 
         mSocket.on("img_ret", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d("HIHI", "HIHIHI");
-                Log.d("recieved", (String) args[0]);
                 String img_str = (String) args[0];
+                int width = (int) args[1];
+                int height = (int) args[2];
                 String[] str_arr = img_str.replaceAll("[\\[\\]]", "").split(",");
-                array = new int[str_arr.length];
+                int[] array = new int[str_arr.length];
                 for(int i = 0;  i < str_arr.length; i++){
                     array[i] = Integer.parseInt(str_arr[i].trim());
                 }
-
-                paintView.setPixelArrayPixelSet(array);
+                paintView.initPixelInfo(array, width, height);
             }
         });
         mSocket.on("change_dot", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d("img_change", String.format("%d, %d, %d", (int) args[0], (int) args[1], (int )args[2]));
-                paintView.changePixelArray((int) args[0], (int) args[1], (int )args[2]);
+                paintView.changePixelArray((int) args[0], (int) args[1]);
             }
         });
     }
-    public void pixelChanged(int x, int y, int color){
+    private void initSocket_global(){
+        try {
+            mSocket = IO.socket(baseUrl + "global");
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
+    }
+    private void initSocket_channel(){
+        try {
+            mSocket = IO.socket(baseUrl + "channel");
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
+    }
+    private void initSocket_debug(){
+        try {
+            mSocket = IO.socket(baseUrl + "debug");
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
+    }
+
+    public void pixelChanged(int index, int color){
         Log.d("pixelChanged", "pixelChanged");
-        mSocket.emit("imgChange", x, y, color);
+        mSocket.emit("imgChange", index, color);
     }
 }

@@ -29,6 +29,7 @@ import com.kakao.sdk.link.model.LinkResult;
 import com.kakao.sdk.share.ShareClient;
 import com.kakao.sdk.talk.TalkApi;
 import com.kakao.sdk.talk.TalkApiClient;
+import com.kakao.sdk.talk.model.Channel;
 import com.kakao.sdk.talk.model.Friend;
 import com.kakao.sdk.talk.model.Friends;
 import com.kakao.sdk.template.model.Content;
@@ -52,7 +53,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class MainActivity extends AppCompatActivity {
-    private Button gotoPaintBtn, kakaoShareBtn, kakaoLogoutBtn;
+    private Button kakaoShareBtn, kakaoLogoutBtn, gotoChannelBtn, gotoGlobalBtn;
     private FloatingActionButton add_btn;
     private ArrayList<MainData> arrayList;
     private MainAdapter mainAdapter;
@@ -78,13 +79,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        gotoPaintBtn = findViewById(R.id.gotoPaint);
         kakaoShareBtn = findViewById(R.id.kakao_share);
         kakaoLogoutBtn = findViewById(R.id.kakao_logout_button);
         recyclerView = findViewById(R.id.rv);
         add_btn = findViewById(R.id.add_btn);
         profileImg = findViewById(R.id.my_img);
         nickName = findViewById(R.id.my_name);
+        gotoChannelBtn = findViewById(R.id.gotochannel);
+        gotoGlobalBtn = findViewById(R.id.gotoglobal);
     }
 
     private void initObject() {
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         "https://i.im.ge/2022/07/08/ukC3Eh.png",
                         new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
                                 "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
-                        "닷어스라고 읽으셨나요? '도투스'입니다^^"
+                        "닷어스라고 읽으셨나요? '도투스'입니다^___^"
                 ),
                 new ItemContent(),
                 new Social(286, 45, 845),
@@ -105,20 +107,11 @@ public class MainActivity extends AppCompatActivity {
 
         arrayList = new ArrayList<>();
 
-        mainAdapter = new MainAdapter(arrayList);
+        mainAdapter = new MainAdapter(arrayList, MainActivity.this);
         recyclerView.setAdapter(mainAdapter);
     }
 
     private void initListener() {
-        gotoPaintBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PaintActivity.class);
-                startActivity(intent);
-                //finish() 하면 뒤로가기 눌러도 못돌아감
-            }
-        });
-
         kakaoShareBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
                 MainData mainData = new MainData(R.drawable.ic_launcher_background, "몰입캠프", "2주차");
                 arrayList.add(mainData);
                 mainAdapter.notifyDataSetChanged();
+            }
+        });
+
+        gotoChannelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChannelRoomActivity.class);
+                startActivity(intent);
             }
         });
     }

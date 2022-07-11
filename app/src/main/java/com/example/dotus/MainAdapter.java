@@ -1,5 +1,7 @@
 package com.example.dotus;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -18,9 +20,11 @@ import java.util.ArrayList;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHolder> {
 
     private ArrayList<MainData> arrayList;
+    private Context context;
 
-    public MainAdapter(ArrayList<MainData> arrayList) {
+    public MainAdapter(ArrayList<MainData> arrayList, Context context) {
         this.arrayList = arrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -50,6 +54,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 //                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String user_id = "user_02";
+                Intent intent = new Intent(context, PaintActivity.class);
+                intent.putExtra("namespace", "paint");
+                intent.putExtra("target_user_id", user_id);
+                context.startActivity(intent);
+            }
+        });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
