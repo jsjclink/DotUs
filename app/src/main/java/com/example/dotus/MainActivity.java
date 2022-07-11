@@ -162,6 +162,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        gotoGlobalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PaintActivity.class);
+                intent.putExtra("namespace", "global");
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateKakaoLoginUi() {

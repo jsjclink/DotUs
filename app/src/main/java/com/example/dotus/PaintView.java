@@ -12,7 +12,7 @@ public class PaintView extends View {
     Paint rectPaint;
     float px, py, curOriginX, curOriginY;
     int[] pixelArray; boolean[] pixelSet;
-    int color = Color.RED;
+    int color = Color.BLUE;
     long timeMilli;
     int pixelWidth = 100; int pixelHeight = 100;
     int scale = 25;
@@ -44,15 +44,16 @@ public class PaintView extends View {
 
         for(int i = 0; i < pixelWidth; i++){
             for(int j = 0; j < pixelHeight; j++){
-                if(pixelSet[j*pixelHeight + i])
-                    rectPaint.setColor(pixelArray[j*pixelHeight + i]);
+                if(pixelSet[j*pixelHeight + i]) {
+                    rectPaint.setColor(pixelArray[j * pixelHeight + i]);
                     canvas.drawRect(
-                            -1*intOriginX + (float)i*scale,
-                            -1*intOriginY + (float)j*scale,
-                            -1*intOriginX + (float)i*scale + scale,
-                            -1*intOriginY + (float)j*scale + scale,
+                            -1 * intOriginX + (float) i * scale,
+                            -1 * intOriginY + (float) j * scale,
+                            -1 * intOriginX + (float) i * scale + scale,
+                            -1 * intOriginY + (float) j * scale + scale,
                             rectPaint
                     );
+                }
             }
         }
         super.onDraw(canvas);
@@ -92,9 +93,10 @@ public class PaintView extends View {
                 if(x < pixelWidth && y < pixelHeight) { //0아래론 화면이 안넘어감
                     pixelSet[y*pixelHeight + x] = true;
                     pixelArray[y*pixelHeight + x] = color;
+                    PaintActivity paintActivity = (PaintActivity) context;
+                    System.out.println("pixel changed called in paintView");
+                    paintActivity.pixelChanged(y*pixelHeight + x, color);
                 }
-                PaintActivity paintActivity = (PaintActivity) context;
-                paintActivity.pixelChanged(y*pixelHeight + x, color);
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -112,7 +114,7 @@ public class PaintView extends View {
     public void initPixelInfo(int[] array, int width, int height){
         this.pixelWidth = width;
         this.pixelHeight = height;
-        this.pixelArray = array;
+        this.pixelArray = array.clone();
         for(int i = 0; i < pixelWidth; i++){
             for(int j = 0; j < pixelHeight; j++){
                 this.pixelSet[j*pixelHeight + i] = true;

@@ -36,8 +36,9 @@ public class PaintActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         String namespace = intent.getStringExtra("namespace");
         //지워!!
-        namespace = "debug";
+        //namespace = "debug";
 
+        System.out.println(namespace);
         switch(namespace){
             case "paint":
                 String user_id = intent.getStringExtra("target_user_id");
@@ -48,13 +49,24 @@ public class PaintActivity extends AppCompatActivity {
                 initListener_global();
                 initSocket_global();
                 break;
-            case "channel":
-                initListener_channel();
-                initSocket_channel();
+            case "insideRoom":
+                String room_name = intent.getStringExtra("target_room_name");
+                boolean is_opener = intent.getBooleanExtra("is_opener", true);
+
+                initListener_insideRoom();
+                if(is_opener){
+                    initSocket_insideRoom_Opener(room_name, 100, 100);
+                }
+                else{
+                    initSocket_insideRoom_Joiner(room_name);
+                }
+
                 break;
+                /*
             case "debug":
                 initListener_debug();
                 initSocket_debug();
+                 */
         }
 
         paintView = new PaintView(this);
@@ -79,22 +91,23 @@ public class PaintActivity extends AppCompatActivity {
     private void initListener_global(){
 
     }
-    private void initListener_channel(){
+    private void initListener_insideRoom(){
 
     }
+    /*
     private void initListener_debug(){
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_id = "global_test";
-                int pixel_size = 300;
+                String user_id = "global";
+                int pixel_size = 100;
                 if(pixel_size <= 100){
                     Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.game), pixel_size, pixel_size, true);
                     int[] array = new int[image.getWidth()*image.getHeight()];
                     image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
                     mSocket.emit("putData", Arrays.toString(array), user_id, image.getWidth(), image.getHeight());
                 }
-                else{/*
+                else{
                     int[] array = new int[pixel_size * pixel_size];
                     for(int i = 0; i < pixel_size*pixel_size; i++){
                         array[i] = Color.BLACK;
@@ -102,11 +115,11 @@ public class PaintActivity extends AppCompatActivity {
                     for(int i = 0; i < pixel_size; i++){
 
                         mSocket.emit("putDataLong", Arrays.toString(Arrays.copyOfRange(array, i*pixel_size, (i+1)*pixel_size)), user_id, pixel_size, pixel_size, i);
-                    }*/
+                    }
                 }
             }
         });
-    }
+    }*/
     private void initSocket_paint(String user_id){
         try {
             mSocket = IO.socket(baseUrl + "paint");
@@ -146,16 +159,98 @@ public class PaintActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mSocket.connect();
+
+        mSocket.on("img_ret", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                String img_str = (String) args[0];
+                int width = (int) args[1];
+                int height = (int) args[2];
+                String[] str_arr = img_str.replaceAll("[\\[\\]]", "").split(",");
+                int[] array = new int[str_arr.length];
+                for(int i = 0;  i < str_arr.length; i++){
+                    array[i] = Integer.parseInt(str_arr[i].trim());
+                }
+                paintView.initPixelInfo(array, width, height);
+            }
+        });
+
+        mSocket.on("change_dot", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                paintView.changePixelArray((int) args[0], (int) args[1]);
+            }
+        });
     }
-    private void initSocket_channel(){
+    private void initSocket_insideRoom_Opener(String room_name, int width, int height){
         try {
-            mSocket = IO.socket(baseUrl + "channel");
+            mSocket = IO.socket(baseUrl + "insideRoom");
         }
         catch (URISyntaxException e){
             e.printStackTrace();
         }
         mSocket.connect();
+
+        mSocket.on("img_ret", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                String img_str = (String) args[0];
+                int width = (int) args[1];
+                int height = (int) args[2];
+                String[] str_arr = img_str.replaceAll("[\\[\\]]", "").split(",");
+                int[] array = new int[str_arr.length];
+                for(int i = 0;  i < str_arr.length; i++){
+                    array[i] = Integer.parseInt(str_arr[i].trim());
+                }
+                paintView.initPixelInfo(array, width, height);
+            }
+        });
+        mSocket.on("change_dot", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                paintView.changePixelArray((int) args[0], (int) args[1]);
+            }
+        });
+
+        mSocket.emit("initRoom", room_name, width, height);
     }
+    private void initSocket_insideRoom_Joiner(String room_name){
+        try {
+            mSocket = IO.socket(baseUrl + "insideRoom");
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
+
+        mSocket.on("img_ret", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("img_ret called in Joiner");
+                System.out.println(args[0]);
+                String img_str = (String) args[0];
+                int width = (int) args[1];
+                int height = (int) args[2];
+                String[] str_arr = img_str.replaceAll("[\\[\\]]", "").split(",");
+                System.out.println(str_arr.length);
+                int[] array = new int[str_arr.length];
+                for(int i = 0;  i < str_arr.length; i++){
+                    array[i] = Integer.parseInt(str_arr[i].trim());
+                }
+                paintView.initPixelInfo(array, width, height);
+            }
+        });
+        mSocket.on("change_dot", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("change_dot called in Joiner");
+                paintView.changePixelArray((int) args[0], (int) args[1]);
+            }
+        });
+
+        mSocket.emit("joinRoom", room_name);
+    }
+    /*
     private void initSocket_debug(){
         try {
             mSocket = IO.socket(baseUrl + "debug");
@@ -164,7 +259,7 @@ public class PaintActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         mSocket.connect();
-    }
+    }*/
 
     public void pixelChanged(int index, int color){
         Log.d("pixelChanged", "pixelChanged");
