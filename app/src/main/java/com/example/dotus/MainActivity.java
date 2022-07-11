@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     FeedTemplate feedTemplate;
     String name, profile, id;
-    final String baseUrl = "http://192.249.18.118:80/";
+    final String baseUrl = "http://192.249.18.118:443/";
     Socket mSocket;
     private int count = 0;
 

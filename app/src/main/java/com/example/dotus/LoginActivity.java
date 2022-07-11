@@ -26,7 +26,7 @@ import io.socket.emitter.Emitter;
 public class LoginActivity extends AppCompatActivity {
 
     ImageButton kakaoLoginBtn;
-    final String baseUrl = "http://192.249.18.118:80/"; //namespace 사용하려면 끝에 /붙이기
+    final String baseUrl = "http://192.249.18.118:443/"; //namespace 사용하려면 끝에 /붙이기
     Socket mSocket;
 
     @Override

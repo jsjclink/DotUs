@@ -23,7 +23,7 @@ public class AddFriendActivity extends AppCompatActivity {
     private TextView notify;
     private Button addFriendBtn;
     private String friend, myId;
-    final String baseUrl = "http://192.249.18.118:80/";
+    final String baseUrl = "http://192.249.18.118:443/";
     Socket mSocket;
 
     @Override

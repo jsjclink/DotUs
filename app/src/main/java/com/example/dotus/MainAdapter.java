@@ -39,6 +39,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         return holder;
     } //List view 배너가 처음 생성될 때의 생명주기
 
+
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
         if(arrayList.get(position).getIv_profile() != ".jpg")
