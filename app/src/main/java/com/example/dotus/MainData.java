@@ -2,21 +2,21 @@ package com.example.dotus;
 
 public class MainData {
 
-    private int iv_profile;
+    private String iv_profile;
     private String tv_name;
-    private String tv_content;
+    private String tv_id;
 
-    public MainData(int iv_profile, String tv_name, String tv_content){
+    public MainData(String iv_profile, String tv_name, String tv_id){
         this.iv_profile=iv_profile;
         this.tv_name=tv_name;
-        this.tv_content=tv_content;
+        this.tv_id=tv_id;
     }
 
-    public int getIv_profile() {
+    public String getIv_profile() {
         return iv_profile;
     }
 
-    public void setIv_profile(int iv_profile) {
+    public void setIv_profile(String iv_profile) {
         this.iv_profile = iv_profile;
     }
 
@@ -28,11 +28,11 @@ public class MainData {
         this.tv_name = tv_name;
     }
 
-    public String getTv_content() {
-        return tv_content;
+    public String getTv_id() {
+        return tv_id;
     }
 
-    public void setTv_content(String tv_content) {
-        this.tv_content = tv_content;
+    public void setTv_id(String tv_id) {
+        this.tv_id = tv_id;
     }
 }

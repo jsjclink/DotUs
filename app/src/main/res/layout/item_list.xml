@@ -25,12 +25,12 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="몰입캠프"/>
+                android:text="이름"/>
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2주차"/>
+                android:text="ID"/>
 
 
         </LinearLayout>

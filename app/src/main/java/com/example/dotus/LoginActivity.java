@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void call(Object... args) {
                             Log.i("existKakaoNum", args[0]+"");
                             if ((int)args[0] == 0) {
-                                mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
+                                mSocket.emit("addUser", user.getKakaoAccount().getProfile().getNickname(), user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());

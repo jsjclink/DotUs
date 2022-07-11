@@ -65,6 +65,17 @@
             android:layout_marginLeft="2dp"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/no_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 버튼을 통해 친구를 추가해보세요."
+        android:textSize="15dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/index_friend"/>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -123,6 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Channel"
+        app:layout_constraintBottom_toTopOf="@+id/gotoglobal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="413dp" />

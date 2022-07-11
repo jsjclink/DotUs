@@ -1,10 +1,13 @@
 package com.example.dotus;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -12,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -42,13 +46,19 @@ import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.sdk.user.model.User;
 
-import java.net.Socket;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
@@ -60,11 +70,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ImageView profileImg;
-    private TextView nickName;
+    private TextView nickName, noFriend;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     FeedTemplate feedTemplate;
     String name, profile, id;
+    final String baseUrl = "http://192.249.18.118:80/";
+    Socket mSocket;
+    private int count = 0;
 
 
     @Override
@@ -75,9 +88,10 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initObject();
         initListener();
+        initSocket();
 
-        loadFriends();
         updateKakaoLoginUi();
+        loadFriends();
     }
 
     private void initView() {
@@ -87,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         add_btn = findViewById(R.id.add_btn);
         profileImg = findViewById(R.id.my_img);
         nickName = findViewById(R.id.my_name);
+        noFriend = findViewById(R.id.no_friend);
         gotoChannelBtn = findViewById(R.id.gotochannel);
         gotoGlobalBtn = findViewById(R.id.gotoglobal);
     }
@@ -147,12 +162,9 @@ public class MainActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MainData mainData = new MainData(R.drawable.ic_launcher_background, "몰입캠프", "2주차");
-//                arrayList.add(mainData);
-//                mainAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
                 intent.putExtra("myId", id);
-                startActivity(intent);
+                startActivityForResult(intent, 200);
             }
         });
 
@@ -163,6 +175,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        loadFriends();
+    }
+
+    private void initSocket() {
+        try {
+            mSocket = IO.socket(baseUrl + "account");
+        }
+        catch (URISyntaxException e){
+            e.printStackTrace();
+        }
+        mSocket.connect();
     }
 
     private void updateKakaoLoginUi() {
@@ -177,7 +205,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFriends() {
-
+        mSocket.emit("getFriendList", id);
+        mSocket.on("get_friend_info", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONArray friendInfo = (JSONArray) args[0];
+                for(; count<friendInfo.length(); count++) {
+                    try{
+                        JSONObject friend = (JSONObject)friendInfo.get(count);
+                        String name  = (String) friend.get("nickname");
+                        String profile = (String) friend.get("img");
+                        String id = (String) friend.get("id");
+                        MainData mainData = new MainData(profile, name, id);
+                        arrayList.add(mainData);
+                        Log.i("mainData", profile);
+                        Log.i("mainData", name);
+                        Log.i("mainData", id);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mainAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                Log.i("친구 몇명?", arrayList.size() + "");
+                if(arrayList.size() != 0)
+                    noFriend.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     public void kakaoLink() {

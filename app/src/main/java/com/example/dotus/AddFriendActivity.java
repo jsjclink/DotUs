@@ -91,6 +91,7 @@ public class AddFriendActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         mSocket.disconnect();
+        setResult(200);
         finish();
     }
 }
