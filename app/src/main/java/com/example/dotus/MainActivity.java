@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     FeedTemplate feedTemplate;
+    String name, profile, id;
 
 
     @Override
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        finish();
                     }
                     return null;
                 });
@@ -144,9 +146,12 @@ public class MainActivity extends AppCompatActivity {
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainData mainData = new MainData(R.drawable.ic_launcher_background, "몰입캠프", "2주차");
-                arrayList.add(mainData);
-                mainAdapter.notifyDataSetChanged();
+//                MainData mainData = new MainData(R.drawable.ic_launcher_background, "몰입캠프", "2주차");
+//                arrayList.add(mainData);
+//                mainAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
+                intent.putExtra("myId", id);
+                startActivity(intent);
             }
         });
 
@@ -161,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateKakaoLoginUi() {
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        String profile = intent.getStringExtra("profile");
+        name = intent.getStringExtra("name");
+        profile = intent.getStringExtra("profile");
+        id = intent.getStringExtra("id");
         nickName.setText(name);
         Glide.with(profileImg).load(profile).circleCrop().into(profileImg);
         Log.i("프로필 사진", profile);
@@ -178,8 +184,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if (linkResult != null) {
                     getApplicationContext().startActivity(linkResult.getIntent());
-
-                    // 카카오링크 보내기에 성공했지만 아래 경고 메시지가 존재할 경우 일부 컨텐츠가 정상 동작하지 않을 수 있습니다.
                     Log.w("TAG", "Warning Msg: "+ linkResult.getWarningMsg());
                     Log.w("TAG", "Argument Msg: "+ linkResult.getArgumentMsg());
                 }
@@ -189,23 +193,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void webKakaoLink() {
-        // 카카오톡 미설치: 웹 공유 사용 권장
-        // 웹 공유 예시 코드
         Uri sharerUrl = WebSharerClient.getInstance().defaultTemplateUri(feedTemplate);
-
-        // CustomTabs으로 웹 브라우저 열기
-        // 1. CustomTabs으로 Chrome 브라우저 열기
         try {
             KakaoCustomTabsClient.INSTANCE.openWithDefault(MainActivity.this, sharerUrl);
         } catch (UnsupportedOperationException e) {
-            // Chrome 브라우저가 없을 때 예외처리
+            e.printStackTrace();
         }
 
-        // 2. CustomTabs으로 디바이스 기본 브라우저 열기
         try {
             KakaoCustomTabsClient.INSTANCE.open(MainActivity.this, sharerUrl);
         } catch (ActivityNotFoundException e) {
-            // 인터넷 브라우저가 없을 때 예외처리
+            e.printStackTrace();
         }
     }
 

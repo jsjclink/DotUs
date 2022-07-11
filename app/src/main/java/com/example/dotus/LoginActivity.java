@@ -14,6 +14,7 @@ import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.Account;
 import com.kakao.sdk.user.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
@@ -25,7 +26,7 @@ import io.socket.emitter.Emitter;
 public class LoginActivity extends AppCompatActivity {
 
     ImageButton kakaoLoginBtn;
-    final String baseUrl = "http://192.249.18.118:80";
+    final String baseUrl = "http://192.249.18.118:80"; //namespace 사용하려면 끝에 /붙이기
     Socket mSocket;
 
     @Override
@@ -71,8 +72,10 @@ public class LoginActivity extends AppCompatActivity {
             if(throwable != null) {
                 Log.e(TAG, "토큰 없음", throwable);
             }
-            else if(accessTokenInfo != null)
-                getUserInfo();
+            else if(accessTokenInfo != null){
+                Log.i("TOKEN", "토큰 있음");
+                getUserInfo(false);
+            }
             return null;
         });
     }
@@ -84,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "로그인 실패", error);
             } else if (oAuthToken != null) {
                 Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                getUserInfo();
+                getUserInfo(true);
             }
             return null;
         });
@@ -97,18 +100,20 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "로그인 실패", error);
             } else if (oAuthToken != null) {
                 Log.i(TAG, "로그인 성공(토큰) : " + oAuthToken.getAccessToken());
-                getUserInfo();
+                getUserInfo(true);
             }
             return null;
         });
     }
 
-    public void getUserInfo() {
+    public void getUserInfo(boolean add) {
         String TAG = "getUserInfo()";
+        Log.i("Getuserinfo", "실행됨");
         UserApiClient.getInstance().me((user, meError) -> {
+            Log.i("LoginFunc", "실행됨");
             if (meError != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", meError);
-            } else {
+            } else if(user != null){
                 System.out.println("로그인 완료");
                 Log.i(TAG, user.toString());
                 {
@@ -116,36 +121,41 @@ public class LoginActivity extends AppCompatActivity {
                             "\n회원번호: "+user.getId() +
                             "\n이메일: "+user.getKakaoAccount().getEmail());
                 }
-
                 Account user1 = user.getKakaoAccount();
                 System.out.println("사용자 계정" + user1);
-
-                addUser(user);
-
-                //여기서부터는 마지막 mSocket.on event에 넣기
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
-                intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
-                startActivity(intent);
-                mSocket.disconnect();
-                finish();
-            }
-            return null;
-        });
-    }
-
-    public void addUser(User user) {
-        mSocket.emit("existUser", user.getId() + "");
-        Log.i("existUserNum", user.getId() + "");
-
-        mSocket.on("exist_user", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                Log.i("existUserNum", (boolean)args[0]+"");
-                if (!(boolean) args[0]) {
-                    mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONObject());
+                if(add){
+                    mSocket.emit("existUserKakaoNum", user.getId() + "");
+                    mSocket.on("exist_user_kakaonum", new Emitter.Listener() {
+                        @Override
+                        public void call(Object... args) {
+                            Log.i("existKakaoNum", args[0]+"");
+                            if ((int)args[0] == 0) {
+                                mSocket.emit("addUser", user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
+                            }
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
+                            intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
+                            intent.putExtra("id", user.getId() + "ABC");
+                            startActivity(intent);
+                            mSocket.disconnect();
+                            finish();
+                        }
+                    });
+                }
+                else {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());
+                    intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
+                    intent.putExtra("id", user.getId() + "ABC");
+                    startActivity(intent);
+                    mSocket.disconnect();
+                    finish();
                 }
             }
+            else{
+                Log.i("Login User", "NULL");
+            }
+            return null;
         });
     }
 }
