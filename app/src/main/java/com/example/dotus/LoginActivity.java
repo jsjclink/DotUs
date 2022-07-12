@@ -135,16 +135,22 @@ public class LoginActivity extends AppCompatActivity {
                         public void call(Object... args) {
                             Log.i("existKakaoNum", args[0]+"");
                             if ((int)args[0] == 0) {
+                                System.out.println("첫 카카오 로그인!!!!!!!!!!!!!!!!!!!!!!!");
                                 mSocket.emit("addUser", user.getKakaoAccount().getProfile().getNickname(), user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
 
                                 //첫 로그인 시 putData
                                 try {
+                                    System.out.println("try 안까지 옴!!!!!!!!!!!!!!!!");
                                     URL url = new URL(user.getKakaoAccount().getProfile().getProfileImageUrl());
                                     Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeStream(url.openConnection().getInputStream()), 100, 100, true);
+                                    System.out.println(image.getWidth());
                                     int[] array = new int[image.getWidth()*image.getHeight()];
                                     image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+                                    System.out.println("getPixels 까지 옴!!!!!!!!!!!!!!!!");
                                     mSocket.emit("putData", Arrays.toString(array), user.getId() + "ABC", image.getWidth(), image.getHeight());
+                                    System.out.println("emit 까지 옴!!!!!!!!!!!!!!!!");
                                 } catch(IOException e) {
+                                    System.out.println("IHAOISHDIOASHDOIAHSDOHOIASHDOIASHDASDHOASHd");
                                     System.out.println(e);
                                 }
                             }
@@ -153,8 +159,8 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("profile", user.getKakaoAccount().getProfile().getProfileImageUrl());
                             intent.putExtra("id", user.getId() + "ABC");
                             startActivity(intent);
-                            mSocket.disconnect();
-                            finish();
+                            //mSocket.disconnect();
+                            //finish();
                         }
                     });
                 }
