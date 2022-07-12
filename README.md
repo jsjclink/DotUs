@@ -22,17 +22,17 @@ DotUs는 본래 카카오톡 프로필 사진을 기반으로 한 서비스이�
 친구 목록을 누르면 친구의 프로필 사진을 수정할 수 있습니다.
 내 사진을 누르면 내 사진을 수정할 수 있습니다.
 <p align="center">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463179-be159191-3f47-4c38-ae66-d63178048909.png">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463330-1978e4c9-ccd1-48c0-8741-294d6357a732.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463179-be159191-3f47-4c38-ae66-d63178048909.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463330-1978e4c9-ccd1-48c0-8741-294d6357a732.png">
 </p>
 
 ## 친구 추가 화면
 친구 아이디를 입력하면 친구를 추가할 수 있습니다.
 
 <p align="center">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463225-0315a204-e995-4f54-8392-24d5c3cc78e1.png">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463238-7a764845-8e91-4e07-9792-a01580f7ba15.png">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463270-027de403-9157-4e71-9b47-6ec6f33730b8.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463225-0315a204-e995-4f54-8392-24d5c3cc78e1.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463238-7a764845-8e91-4e07-9792-a01580f7ba15.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463270-027de403-9157-4e71-9b47-6ec6f33730b8.png">
 </p>
 
 ## 방 리스트
@@ -40,15 +40,15 @@ DotUs는 본래 카카오톡 프로필 사진을 기반으로 한 서비스이�
 먼저 방을 만들고 친구들에게 방 이름을 알려주세요.
 
 <p align="center">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463356-0fb879db-2ab5-4805-b5d1-0efb40340b18.png">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463369-61711f4a-4f35-4af8-a0e6-3fce1d513718.png">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463382-8ba64806-7e5f-44e2-90c8-0c5a8929c00c.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463356-0fb879db-2ab5-4805-b5d1-0efb40340b18.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463369-61711f4a-4f35-4af8-a0e6-3fce1d513718.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463382-8ba64806-7e5f-44e2-90c8-0c5a8929c00c.png">
 </p>
 
 ## 글로벌 캔버스
 모든 사람이 그림을 그릴 수 있는 캔버스 입니다. 많은 사람과 함께 도트를 찍어보세용!
 <p align="center">
-  <img width="100%" src="https://user-images.githubusercontent.com/60886172/178463397-49c219ac-c9f2-4a0d-bf4f-a0ebdd64bd1c.png">
+  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463397-49c219ac-c9f2-4a0d-bf4f-a0ebdd64bd1c.png">
 
 </p>
 
