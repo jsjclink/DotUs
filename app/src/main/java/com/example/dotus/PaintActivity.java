@@ -118,9 +118,11 @@ public class PaintActivity extends AppCompatActivity {
                 int height = (int) args[2];
                 String[] str_arr = img_str.replaceAll("[\\[\\]]", "").split(",");
                 int[] array = new int[str_arr.length];
+                System.out.println("strarrlength" + str_arr.length);
                 for(int i = 0;  i < str_arr.length; i++){
                     array[i] = Integer.parseInt(str_arr[i].trim());
                 }
+                System.out.println("PIXEL SIZE!!" + width + " " + height);
                 paintView.initPixelInfo(array, width, height);
             }
         });

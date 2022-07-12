@@ -116,6 +116,7 @@ public class PaintView extends View {
         this.pixelWidth = width;
         this.pixelHeight = height;
         this.pixelArray = array.clone();
+        this.pixelSet = new boolean[width * height];
         for(int i = 0; i < pixelWidth; i++){
             for(int j = 0; j < pixelHeight; j++){
                 this.pixelSet[j*pixelHeight + i] = true;
