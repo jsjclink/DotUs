@@ -53,8 +53,7 @@ DotUs는 본래 카카오톡 프로필 사진을 기반으로 한 서비스이�
 ## 글로벌 캔버스
 모든 사람이 그림을 그릴 수 있는 캔버스 입니다. 많은 사람과 함께 도트를 찍어보세용!
 <p align="center">
-  <img width="30%" src="https://user-images.githubusercontent.com/60886172/178463397-49c219ac-c9f2-4a0d-bf4f-a0ebdd64bd1c.png">
-
+  <img width="30%" src="https://user-images.githubusercontent.com/81218672/178485025-17fa41e1-473f-4b7f-a521-363617340f77.png">
 </p>
 
 ## Team Member
