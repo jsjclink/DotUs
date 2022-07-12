@@ -139,8 +139,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //첫 로그인 시 putData
                                 try {
+                                    int pixel_size = 100;
                                     URL url = new URL(user.getKakaoAccount().getProfile().getProfileImageUrl());
-                                    Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeStream(url.openConnection().getInputStream()), 300, 300, true);
+                                    Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeStream(url.openConnection().getInputStream()), pixel_size, pixel_size, true);
                                     System.out.println(image.getWidth());
                                     int[] array = new int[image.getWidth()*image.getHeight()];
                                     image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());

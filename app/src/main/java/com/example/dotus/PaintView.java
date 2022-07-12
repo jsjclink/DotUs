@@ -131,4 +131,12 @@ public class PaintView extends View {
     public void setColor(int color){
         this.color = color;
     }
+    public void sizeUp(){
+        this.scale += 5;
+        invalidate();
+    }
+    public void sizeDown(){
+        this.scale -= 5;
+        invalidate();
+    }
 }

@@ -44,6 +44,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/sizeup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sizeup"
+            app:layout_constraintEnd_toStartOf="@+id/sizedown"
+            tools:layout_editor_absoluteY="38dp" />
+
+        <Button
+            android:id="@+id/sizedown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sizedown"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="36dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

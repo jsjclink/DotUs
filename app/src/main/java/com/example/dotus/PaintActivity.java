@@ -25,7 +25,7 @@ public class PaintActivity extends AppCompatActivity {
     PaintView paintView;
     FrameLayout stage;
     Socket mSocket;
-    Button colorPickBtn;
+    Button colorPickBtn, sizeUpBtn, sizeDownBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,8 @@ public class PaintActivity extends AppCompatActivity {
     private void initView() {
         stage = findViewById(R.id.stage);
         colorPickBtn = findViewById(R.id.color_pick);
+        sizeUpBtn = findViewById(R.id.sizeup);
+        sizeDownBtn = findViewById(R.id.sizedown);
     }
 
     @Override
@@ -87,6 +89,18 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openColorPicker();
+            }
+        });
+        sizeUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paintView.sizeUp();
+            }
+        });
+        sizeDownBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                paintView.sizeDown();
             }
         });
     }

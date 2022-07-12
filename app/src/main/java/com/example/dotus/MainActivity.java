@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     final String baseUrl = "http://192.249.18.118:443/";
     Socket mSocket;
     private int count = 0;
-
+    LinearLayout profile_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         noFriend = findViewById(R.id.no_friend);
         gotoChannelBtn = findViewById(R.id.gotochannel);
         gotoGlobalBtn = findViewById(R.id.gotoglobal);
+        profile_layout = findViewById(R.id.profile);
     }
 
     private void initObject() {
@@ -180,6 +182,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PaintActivity.class);
                 intent.putExtra("namespace", "global");
+                startActivity(intent);
+            }
+        });
+        profile_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String user_id = id;
+                Intent intent = new Intent(MainActivity.this, PaintActivity.class);
+                intent.putExtra("namespace", "paint");
+                intent.putExtra("target_user_id", user_id);
                 startActivity(intent);
             }
         });
