@@ -110,17 +110,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initObject() {
-        feedTemplate = new FeedTemplate(
-                new Content("DotUs에 당신을 초대합니다!",
-                        "https://i.im.ge/2022/07/08/ukC3Eh.png",
-                        new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
-                                "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
-                        "닷어스라고 읽으셨나요? '도투스'입니다^___^"
-                ),
-                new ItemContent(),
-                new Social(286, 45, 845),
-                Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink", "kakao698ef6feb4968fb876642447e2007a20://kakaolink")))
-        );
 
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -178,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         gotoGlobalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         profile_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,6 +215,18 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(profileImg).load(profile).circleCrop().into(profileImg);
         Log.i("프로필 사진", profile);
         Log.i("url 길이", profile.length() + "");
+
+        feedTemplate = new FeedTemplate(
+                new Content("DotUs에 당신을 초대합니다!",
+                        "https://i.postimg.cc/g0GPRzZ4/icon-dotus.png",
+                        new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
+                                "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
+                        "제 ID는 "+id+"입니다.\n함께 플레이해요!(굿)"
+                ),
+                new ItemContent(),
+                new Social(286, 45, 845),
+                Arrays.asList(new com.kakao.sdk.template.model.Button("앱으로 보기", new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink", "kakao698ef6feb4968fb876642447e2007a20://kakaolink")))
+        );
     }
 
     private void loadFriends() {
