@@ -106,7 +106,7 @@ public class PaintView extends View {
                         is_spoid = false;
                         spoid_color = pixelArray[y*pixelHeight + x];
                         Button btn = ((PaintActivity) context).findViewById(R.id.spoid);
-                        btn.setText("add to palette");
+                        btn.setText("팔레트에 추가");
                     }
                 }
                 break;

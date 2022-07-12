@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,8 @@ public class PaintActivity extends AppCompatActivity {
     PaintView paintView;
     FrameLayout stage;
     Socket mSocket;
-    Button colorPickBtn, sizeUpBtn, sizeDownBtn, spoidBtn;
+    Button colorPickBtn, spoidBtn;
+    ImageButton sizeUpBtn, sizeDownBtn;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     LinearLayoutManager linearLayoutManager;
@@ -132,14 +134,14 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switch((String)spoidBtn.getText()){
-                    case "spoid":
+                    case "스포이드":
                         paintView.setSpoid();
-                        spoidBtn.setText("choose color");
+                        spoidBtn.setText("색 선택");
                         break;
-                    case "add to palette":
+                    case "팔레트에 추가":
                         colorList.add(paintView.getSpoid());
                         recyclerAdapter.notifyDataSetChanged();
-                        spoidBtn.setText("spoid");
+                        spoidBtn.setText("스포이드");
                         break;
                 }
             }

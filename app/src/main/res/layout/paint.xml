@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700">
+    android:background="#022658">
 
     <FrameLayout
         android:id="@+id/stage"
@@ -37,7 +37,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/constraintLayout3"
@@ -48,7 +48,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/colorblocklist"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,40 +61,60 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/constraintLayout2"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toEndOf="@id/constraintLayout2">
 
-            <Button
-                android:id="@+id/color_pick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="add color"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
+            <ImageButton
                 android:id="@+id/sizedown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sizedown"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <Button
-                android:id="@+id/sizeup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="sizeup"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:adjustViewBounds="true"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_zoom_out"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#022658" />
 
-            <Button
-                android:id="@+id/spoid"
+            <ImageButton
+                android:id="@+id/sizeup"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:adjustViewBounds="true"
+                android:background="@color/white"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_zoom_in"
+                app:layout_constraintEnd_toStartOf="@+id/sizedown"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#022658" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="spoid"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/spoid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="스포이드"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/color_pick"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/color_pick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="색 추가"
+                    android:layout_marginLeft="30dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/spoid" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
