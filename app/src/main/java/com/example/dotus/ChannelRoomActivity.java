@@ -37,7 +37,7 @@ import io.socket.emitter.Emitter;
 public class ChannelRoomActivity extends AppCompatActivity {
     final String baseUrl = "http://192.249.18.118:443/";
     Socket mSocket;
-    Button makeRoomBtn, joinRoomBtn;
+    Button makeRoomBtn;
     RecyclerView roomListRv;
     LinearLayoutManager linearLayoutManager;
     ArrayList<String> roomList;
@@ -70,7 +70,6 @@ public class ChannelRoomActivity extends AppCompatActivity {
 
     private void initView() {
         makeRoomBtn = findViewById(R.id.makeroom);
-        joinRoomBtn = findViewById(R.id.joinroom);
         roomListRv = findViewById(R.id.roomlist);
     }
 

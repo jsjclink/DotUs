@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         "https://i.im.ge/2022/07/08/ukC3Eh.png",
                         new Link("kakao698ef6feb4968fb876642447e2007a20://kakaolink",
                                 "kakao698ef6feb4968fb876642447e2007a20://kakaolink"),
-                        "닷어스라고 읽으셨나요? '도투스'입니다^___^"
+                        "닷어스라고 읽으셨나요? '도투스'입니다^___^\n제 ID는 "+id+"입니다.\n함께 플레이해요!(굿)"
                 ),
                 new ItemContent(),
                 new Social(286, 45, 845),
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         gotoGlobalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         profile_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
