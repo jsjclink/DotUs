@@ -32,8 +32,11 @@ public class PaintActivity extends AppCompatActivity {
     PaintView paintView;
     FrameLayout stage;
     Socket mSocket;
-    Button colorPickBtn, sizeUpBtn, sizeDownBtn;
+    Button colorPickBtn, sizeUpBtn, sizeDownBtn, spoidBtn;
     RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+    LinearLayoutManager linearLayoutManager;
+    ArrayList<Integer> colorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,22 @@ public class PaintActivity extends AppCompatActivity {
         colorPickBtn = findViewById(R.id.color_pick);
         sizeUpBtn = findViewById(R.id.sizeup);
         sizeDownBtn = findViewById(R.id.sizedown);
-        recyclerView = findViewById(R.id.colorlist_rv);
+        spoidBtn = findViewById(R.id.spoid);
+        recyclerView = findViewById(R.id.colorblocklist);
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        colorList = new ArrayList<>();
+        colorList.add(Color.BLUE);
+        colorList.add(Color.BLACK);
+        colorList.add(Color.RED);
+        colorList.add(Color.GREEN);
+        colorList.add(Color.GRAY);
+        colorList.add(Color.YELLOW);
+
+        recyclerAdapter = new RecyclerAdapter();
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     @Override
@@ -95,6 +113,7 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openColorPicker();
+
             }
         });
         sizeUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +126,22 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 paintView.sizeDown();
+            }
+        });
+        spoidBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch((String)spoidBtn.getText()){
+                    case "spoid":
+                        paintView.setSpoid();
+                        spoidBtn.setText("choose color");
+                        break;
+                    case "add to palette":
+                        colorList.add(paintView.getSpoid());
+                        recyclerAdapter.notifyDataSetChanged();
+                        spoidBtn.setText("spoid");
+                        break;
+                }
             }
         });
     }
@@ -256,8 +291,45 @@ public class PaintActivity extends AppCompatActivity {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 paintView.setColor(color);
+                colorList.add(color);
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
         colorPicker.show();
+    }
+    public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>{
+
+        @NonNull
+        @Override
+        public RecyclerAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(PaintActivity.this);
+            View view = inflater.inflate(R.layout.color_layout, parent, false);
+            return new PaintActivity.RecyclerAdapter.ItemViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerAdapter.ItemViewHolder holder, int position) {
+            holder.cardView.setBackgroundColor(colorList.get(position));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    paintView.setColor(colorList.get(holder.getAdapterPosition()));
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return colorList.size();
+        }
+
+        public class ItemViewHolder extends RecyclerView.ViewHolder{
+            CardView cardView;
+            public ItemViewHolder(@NonNull View itemView) {
+                super(itemView);
+                cardView = itemView.findViewById(R.id.colorblock);
+            }
+        }
     }
 }

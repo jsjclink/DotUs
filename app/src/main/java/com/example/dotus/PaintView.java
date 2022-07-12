@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 public class PaintView extends View {
     Paint rectPaint;
@@ -19,6 +20,8 @@ public class PaintView extends View {
     float sensitivity = 0.1f;
     int targetX, targetY;
     Context context;
+    boolean is_spoid = false;
+    int spoid_color = Color.GRAY;
 
     public PaintView(Context context) {
         super(context);
@@ -92,11 +95,19 @@ public class PaintView extends View {
                 int x = ((int)(curOriginX + event.getX()))/scale;
                 int y = ((int)(curOriginY+ event.getY()))/scale;
                 if(x < pixelWidth && y < pixelHeight) { //0아래론 화면이 안넘어감
-                    pixelSet[y*pixelHeight + x] = true;
-                    pixelArray[y*pixelHeight + x] = color;
-                    PaintActivity paintActivity = (PaintActivity) context;
-                    System.out.println("pixel changed called in paintView");
-                    paintActivity.pixelChanged(y*pixelHeight + x, color);
+                    if(is_spoid == false){
+                        pixelSet[y*pixelHeight + x] = true;
+                        pixelArray[y*pixelHeight + x] = color;
+                        PaintActivity paintActivity = (PaintActivity) context;
+                        System.out.println("pixel changed called in paintView");
+                        paintActivity.pixelChanged(y*pixelHeight + x, color);
+                    }
+                    else{
+                        is_spoid = false;
+                        spoid_color = pixelArray[y*pixelHeight + x];
+                        Button btn = ((PaintActivity) context).findViewById(R.id.spoid);
+                        btn.setText("add to palette");
+                    }
                 }
                 break;
 
@@ -139,5 +150,13 @@ public class PaintView extends View {
         this.scale -= 5;
         if(this.scale <= 0) this.scale = 5;
         invalidate();
+    }
+
+    public void setSpoid() {
+        is_spoid = true;
+    }
+
+    public int getSpoid() {
+        return spoid_color;
     }
 }
