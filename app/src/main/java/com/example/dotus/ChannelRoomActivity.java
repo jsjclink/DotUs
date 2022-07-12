@@ -3,6 +3,7 @@ package com.example.dotus;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,6 +81,8 @@ public class ChannelRoomActivity extends AppCompatActivity {
                 final EditText editText = new EditText(ChannelRoomActivity.this);
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(ChannelRoomActivity.this);
+                final Typeface face = ResourcesCompat.getFont(ChannelRoomActivity.this, R.font.maenbal);
+                editText.setTypeface(face);
                 dialog.setTitle("방 번호 입력");
                 dialog.setView(editText);
                 dialog.setPositiveButton("입력", new DialogInterface.OnClickListener() {

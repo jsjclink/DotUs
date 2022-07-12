@@ -64,7 +64,10 @@ public class AddFriendActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    notify.setText(args[0].toString());
+                                    String received = args[0].toString();
+                                    if(received.equals("invalid_id")) notify.setText("존재하지 않는 ID입니다.");
+                                    else if(received.equals("already added")) notify.setText("이미 추가된 친구입니다.");
+                                    else notify.setText("친구가 정상적으로 추가되었습니다.");
                                 }
                             });
                             if (args[0].toString().equals("add friend success")){
