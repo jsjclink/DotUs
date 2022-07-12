@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/activity_add_friend.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/channel.xml" value="0.2" />
+        <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/color_layout.xml" value="0.190234375" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/item_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/paint.xml" value="0.2" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/recycler_view_row_roomlist.xml" value="0.264" />

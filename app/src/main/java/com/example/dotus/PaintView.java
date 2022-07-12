@@ -15,7 +15,7 @@ public class PaintView extends View {
     int color = Color.BLUE; //기본 색
     long timeMilli;
     int pixelWidth = 100; int pixelHeight = 100;
-    int scale = 25;
+    int scale = 20;
     float sensitivity = 0.1f;
     int targetX, targetY;
     Context context;
@@ -137,6 +137,7 @@ public class PaintView extends View {
     }
     public void sizeDown(){
         this.scale -= 5;
+        if(this.scale <= 0) this.scale = 5;
         invalidate();
     }
 }

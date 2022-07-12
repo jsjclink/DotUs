@@ -1,19 +1,26 @@
 package com.example.dotus;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -26,6 +33,7 @@ public class PaintActivity extends AppCompatActivity {
     FrameLayout stage;
     Socket mSocket;
     Button colorPickBtn, sizeUpBtn, sizeDownBtn;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +52,15 @@ public class PaintActivity extends AppCompatActivity {
         switch(namespace){
             case "paint":
                 String user_id = intent.getStringExtra("target_user_id");
-                initListener_paint();
                 initSocket_paint(user_id);
                 break;
             case "global":
-                initListener_global();
                 initSocket_global();
                 break;
             case "insideRoom":
                 String room_name = intent.getStringExtra("target_room_name");
                 boolean is_opener = intent.getBooleanExtra("is_opener", true);
 
-                initListener_insideRoom();
                 if(is_opener){
                     initSocket_insideRoom_Opener(room_name, 100, 100);
                 }
@@ -75,6 +80,7 @@ public class PaintActivity extends AppCompatActivity {
         colorPickBtn = findViewById(R.id.color_pick);
         sizeUpBtn = findViewById(R.id.sizeup);
         sizeDownBtn = findViewById(R.id.sizedown);
+        recyclerView = findViewById(R.id.colorlist_rv);
     }
 
     @Override
@@ -103,16 +109,6 @@ public class PaintActivity extends AppCompatActivity {
                 paintView.sizeDown();
             }
         });
-    }
-
-    private void initListener_paint(){
-
-    }
-    private void initListener_global(){
-
-    }
-    private void initListener_insideRoom(){
-
     }
     private void initSocket_paint(String user_id){
         try {
