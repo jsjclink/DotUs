@@ -20,6 +20,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function2;
 
 public class MainActivity extends AppCompatActivity {
-    private Button kakaoShareBtn, kakaoLogoutBtn, gotoChannelBtn, gotoGlobalBtn;
+    private ImageButton kakaoShareBtn, kakaoLogoutBtn, gotoChannelBtn, gotoGlobalBtn;
     private FloatingActionButton add_btn;
     private ArrayList<MainData> arrayList;
     private MainAdapter mainAdapter;
@@ -212,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mSocket.connect();
     }
+    //안쓸 때 socket.off 해두면 여러개 연결되는거 해결된대
 
     private void updateKakaoLoginUi() {
         Intent intent = getIntent();

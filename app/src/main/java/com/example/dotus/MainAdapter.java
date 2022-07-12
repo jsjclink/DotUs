@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -43,11 +46,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
         if(arrayList.get(position).getIv_profile() != ".jpg")
-            Glide.with(context).load(arrayList.get(position).getIv_profile()).into(holder.iv_profile);
+            Glide.with(context).load(arrayList.get(position).getIv_profile()).apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(16))).into(holder.iv_profile);
 //        holder.iv_profile.setImageResource(arrayList.get(position).getIv_profile());
-//        GradientDrawable drawable = (GradientDrawable)holder.iv_profile.getContext().getDrawable(R.drawable.background_rounding);
+        GradientDrawable drawable = (GradientDrawable)holder.iv_profile.getContext().getDrawable(R.drawable.background_rounding);
 //        holder.iv_profile.setBackground(drawable);
-//        holder.iv_profile.setClipToOutline(true);
+        holder.iv_profile.setClipToOutline(true);
         holder.tv_name.setText(arrayList.get(position).getTv_name());
         holder.tv_id.setText(arrayList.get(position).getTv_id());
 

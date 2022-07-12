@@ -3,18 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="1.7213541666666667" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/channel.xml" value="0.2" />
-        <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/item_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/paint.xml" value="0.2" />
-        <entry key="..\:/Users/jsjcl/Desktop/madcamp/dotus/app/src/main/res/layout/recycler_view_row_roomlist.xml" value="0.264" />
         <entry key="app/src/main/res/drawable/background_rounding.xml" value="0.106" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.106" />
+        <entry key="app/src/main/res/drawable/ic_channel.xml" value="0.105" />
+        <entry key="app/src/main/res/drawable/round_button.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/rounding.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_add_friend.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.30416666666666664" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2753158569335938" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
         <entry key="app/src/main/res/layout/background_rounding.xml" value="0.21875" />
+        <entry key="app/src/main/res/layout/channel.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.3171875" />
         <entry key="app/src/main/res/layout/paint.xml" value="0.21979166666666666" />
+        <entry key="app/src/main/res/layout/recycler_view_row_roomlist.xml" value="0.3182291666666667" />
       </map>
     </option>
   </component>

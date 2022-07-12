@@ -39,6 +39,7 @@
             android:id="@+id/color_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/maenbal"
             android:text="colorpick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
