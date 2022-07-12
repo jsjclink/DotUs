@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +19,10 @@ import com.kakao.sdk.user.model.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -131,6 +136,17 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("existKakaoNum", args[0]+"");
                             if ((int)args[0] == 0) {
                                 mSocket.emit("addUser", user.getKakaoAccount().getProfile().getNickname(), user.getId() + "", user.getId() + "ABC", user.getKakaoAccount().getProfile().getProfileImageUrl(), new JSONArray());
+
+                                //첫 로그인 시 putData
+                                try {
+                                    URL url = new URL(user.getKakaoAccount().getProfile().getProfileImageUrl());
+                                    Bitmap image =  Bitmap.createScaledBitmap(BitmapFactory.decodeStream(url.openConnection().getInputStream()), 100, 100, true);
+                                    int[] array = new int[image.getWidth()*image.getHeight()];
+                                    image.getPixels(array, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+                                    mSocket.emit("putData", Arrays.toString(array), user.getId() + "ABC", image.getWidth(), image.getHeight());
+                                } catch(IOException e) {
+                                    System.out.println(e);
+                                }
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("name", user.getKakaoAccount().getProfile().getNickname());

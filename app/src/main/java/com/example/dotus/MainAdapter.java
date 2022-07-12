@@ -63,7 +63,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String user_id = "user_02";
+                String user_id = (String) holder.tv_id.getText();
                 Intent intent = new Intent(context, PaintActivity.class);
                 intent.putExtra("namespace", "paint");
                 intent.putExtra("target_user_id", user_id);
